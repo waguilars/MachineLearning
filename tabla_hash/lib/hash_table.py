@@ -12,22 +12,21 @@ def get_hash_table(data):
     b = len(data)
     table = [None] * b
     for x in data:
-        position = hash(x, b)
-        if table[position] == None:
-            table[position] = x
-            print(table)
-        else:
-            print('redispersar ', x, position)
-            # TODO: hacer funcion para redispersar
-            return
+        position = get_position(x, b)
+        hash(table, position, x)
+
+    return table
 
 
-def hash(x, b):
+def get_position(x, b):
     return x % b
 
-# TODO: Funcion incompleta
 
-
-def redisp(x, data):
-    b = len(data)
-    kx = (x % (b-1)) + 1
+def hash(table, pos, i):
+    b = len(table)
+    if table[pos] == None:
+        table[pos] = i
+    else:
+        k = (i % (b - 1)) + 1
+        h = (pos + k) % b
+        hash(table, h, i)

@@ -10,4 +10,6 @@ Integrantes:
 
 data = [23, 14, 9, 6, 30, 12, 18]
 
-get_hash_table(data)
+hash_table = get_hash_table(data)
+
+print(hash_table)
