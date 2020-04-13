@@ -1,32 +1,32 @@
-""" 
+"""
 Funcion principal
-Integrantes: 
-- Aguilar Wilson 
+Integrantes:
+- Aguilar Wilson
 - Cacuango Gabriel
 - Lasso Christian
 - Romo Ricardo
 """
 
 
-def get_hash_table(data):
-    b = len(data)
+def get_hash_table(data, size):
+    b = size
     table = [None] * b
     for x in data:
-        position = get_position(x, b)
-        hash(table, position, x)
-
+        position = x % b
+        if table[position] == None:
+            table[position] = x
+        else:
+            k = (x % (b - 1)) + 1
+            new_pos = re_disp(position, k, table)
+            table[new_pos] = x
     return table
 
 
-def get_position(x, b):
-    return x % b
-
-
-def hash(table, pos, i):
+def re_disp(h, k, table):
     b = len(table)
-    if table[pos] == None:
-        table[pos] = i
+    position = (h + k) % b
+
+    if (table[position] == None):
+        return position
     else:
-        k = (i % (b - 1)) + 1
-        h = (pos + k) % b
-        hash(table, h, i)
+        return re_disp(position, k, table)
