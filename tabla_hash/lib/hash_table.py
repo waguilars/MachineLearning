@@ -8,8 +8,12 @@ Integrantes:
 """
 
 
-def get_hash_table(data, size):
-    b = size
+def get_hash_table(data, size=0):
+    if size < len(data):
+        b = len(data)
+    else:
+        b = size
+
     table = [None] * b
     for x in data:
         position = x % b
@@ -17,8 +21,12 @@ def get_hash_table(data, size):
             table[position] = x
         else:
             k = (x % (b - 1)) + 1
-            new_pos = re_disp(position, k, table)
-            table[new_pos] = x
+            try:
+                new_pos = re_disp(position, k, table)
+                table[new_pos] = x
+            except:
+                print('el re-hash entro en bucle, intente con un tamaño de tabla mayor')
+                exit()
     return table
 
 
