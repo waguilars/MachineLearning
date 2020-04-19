@@ -1,3 +1,10 @@
+"""
+Integrantes:
+- Aguilar Wilson
+- Cacuango Gabriel
+- Lasso Christian
+- Romo Ricardo
+"""
 import re
 import string
 
@@ -47,23 +54,38 @@ docs.append(clean(doc3))
 docs.append(clean(doc4))
 
 my_dict = get_dict(docs)
-##################################### #                                 ########################
 
 
 def get_positions(token, docs):
+    """ Obtiene el documento y las posiciones de
+        un token dentro de un conjunto de documentos
+
+        params:
+
+        token - palabra a buscar
+
+        docs - lista de documentos
+
+        return:
+
+        all_matches - lista con el token, numero de documento en la lista y las posiciones
+
+    """
+
     all_matches = [token]
     for doc in docs:
         matches = []
         if token in doc:
             indexes = [i for i, x in enumerate(doc) if x == token]
-            matches.append([docs.index(doc), len(indexes), [indexes]])
+            matches += [docs.index(doc), len(indexes), indexes]
         if matches:
             all_matches.append(matches)
     return all_matches
 
 
-#['to', [[0, 4, [[0, 3, 5, 8]]]], [[1, 2, [[0, 4]]]], [], []]
-new_dictonary = []
-for token in my_dict:
-    new_dictonary.append(get_positions(token, docs))
-    print(get_positions(token, docs))
+# ['to', [[0, 4, [[0, 3, 5, 8]]]], [[1, 2, [[0, 4]]]], [], []]
+
+
+fii = map(lambda x: get_positions(x, docs), my_dict)
+for item in fii:
+    print(item)
