@@ -42,20 +42,6 @@ def get_dict(cleaned_docs):
     return list(set(data))
 
 
-doc1 = "To do is to be. To be is to do"
-doc2 = "To be or not to be. I am what I am"
-doc3 = "I think therefore I am. Do be do be do."
-doc4 = "Do do do, da da da. Let it be, let it be"
-
-docs = []
-docs.append(clean(doc1))
-docs.append(clean(doc2))
-docs.append(clean(doc3))
-docs.append(clean(doc4))
-
-my_dict = get_dict(docs)
-
-
 def get_positions(token, docs):
     """ Obtiene el documento y las posiciones de
         un token dentro de un conjunto de documentos
@@ -83,9 +69,29 @@ def get_positions(token, docs):
     return all_matches
 
 
-# ['to', [[0, 4, [[0, 3, 5, 8]]]], [[1, 2, [[0, 4]]]], [], []]
+def get_fii(docs):
+
+    newdoc = []
+    for doc in docs:
+        newdoc.append(clean(doc))
+    docs = newdoc
+    my_dict = get_dict(docs)
+    fii = map(lambda x: get_positions(x, docs), my_dict)
+    return list(fii)
 
 
-fii = map(lambda x: get_positions(x, docs), my_dict)
-for item in fii:
-    print(item)
+if __name__ == "__main__":
+    doc1 = "To do is to be. To be is to do"
+    doc2 = "To be or not to be. I am what I am"
+    doc3 = "I think therefore I am. Do be do be do."
+    doc4 = "Do do do, da da da. Let it be, let it be"
+
+    docs = []
+    docs.append(doc1)
+    docs.append(doc2)
+    docs.append(doc3)
+    docs.append(doc4)
+
+    fii = get_fii(docs)
+    for item in fii:
+        print(item)
