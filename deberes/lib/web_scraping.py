@@ -5,6 +5,7 @@ import string
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 
+
 def clean(a):
     """ Cambia a minusculas y limpia los caracteres
     especiales de un string
@@ -21,26 +22,26 @@ def clean(a):
     return c
 
 
-file=urlopen('https://archive.ics.uci.edu/ml/index.php')
-html=file.read()
+file = urlopen('https://archive.ics.uci.edu/ml/index.php')
+html = file.read()
 file.close()
 
-soup= BeautifulSoup(html)
-busca=soup.find_all("a")
-tit=[]
-con=0
+soup = BeautifulSoup(html)
+busca = soup.find_all("a")
+tit = []
+con = 0
 for links in soup.find_all('a'):
-    #con+=1
+    # con+=1
     # print(con,links.get('href'))
     tit.append(links.get('href'))
 
 
-tit2="".join(map(str, tit[17:66]))
+tit2 = "".join(map(str, tit[17:66]))
 
-f=clean(tit2)
+f = clean(tit2)
 print(len(f))
-f2=stopwords.words('english')
-#print(f2)
+f2 = stopwords.words('english')
+# print(f2)
 
 for word in f:
     if word in f2:
@@ -52,5 +53,5 @@ print(f)
 # n6=[]
 # for i in f:
 #     n6.append(steemer.stem(i))
-    
+
 # print(len(n6))
