@@ -13,21 +13,12 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 import csv
 
-<<<<<<< HEAD
-=======
-
-def clean(a):
-    """ Cambia a minusculas y limpia los caracteres
-    especiales de un string
-
-    params:
-    a - string que se va a limpiar
->>>>>>> 75aa490202a6c020588cec35d61cd9531c5bde7f
 
 def clean(a):
     b = a.lower()
     c = re.sub('[^A-Za-z0-9]+', ' ', b).split()
     return c
+
 
 def export_page_titles(url):
     file = urlopen(url)
@@ -43,8 +34,8 @@ def export_page_titles(url):
     titles = titles[11:23]
     # export to csvt
     with open('page_titles.csv', mode='w') as my_file:
-        file_writer = csv.writer(
-            my_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        # file_writer = csv.writer(
+        #     my_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for title in titles:
             my_file.write(title+'\n')
 
@@ -93,7 +84,6 @@ def get_positions(token, docs):
     return all_matches
 
 
-<<<<<<< HEAD
 def get_fii(titles):
     newdoc = []
     for doc in titles:
@@ -102,20 +92,6 @@ def get_fii(titles):
     fii = map(lambda x: get_positions(x, newdoc), my_dict)
     return list(fii)
 
-=======
-file = urlopen('https://archive.ics.uci.edu/ml/index.php')
-html = file.read()
-file.close()
-
-soup = BeautifulSoup(html)
-busca = soup.find_all("a")
-tit = []
-con = 0
-for links in soup.find_all('a'):
-    # con+=1
-    # print(con,links.get('href'))
-    tit.append(links.get('href'))
->>>>>>> 75aa490202a6c020588cec35d61cd9531c5bde7f
 
 def to_string(titles):
     document = ""
@@ -123,7 +99,6 @@ def to_string(titles):
         document += item+" "
     return document.strip()
 
-<<<<<<< HEAD
 
 def web_scraping(url_page):
     export_page_titles(url_page)
@@ -134,29 +109,10 @@ def web_scraping(url_page):
     titles = list(map(to_string, titles))
     fii = get_fii(titles)
     return fii
-=======
-tit2 = "".join(map(str, tit[17:66]))
-
-f = clean(tit2)
-print(len(f))
-f2 = stopwords.words('english')
-# print(f2)
->>>>>>> 75aa490202a6c020588cec35d61cd9531c5bde7f
 
 
-<<<<<<< HEAD
 if __name__ == "__main__":
     url_page = 'https://archive.ics.uci.edu/ml/index.php'
     ws_fii = web_scraping(url_page)
     for item in ws_fii:
         print(item)
-=======
-print(f)
-# steemer=PorterStemmer()
-# n5=steemer.stem('')
-# n6=[]
-# for i in f:
-#     n6.append(steemer.stem(i))
-
-# print(len(n6))
->>>>>>> 75aa490202a6c020588cec35d61cd9531c5bde7f
