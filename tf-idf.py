@@ -44,13 +44,12 @@ def get_positions(token, docs):
     all_matches = [token]
     values = []
     for doc in docs:
-        matches = []
         if token in doc:
             indexes = [i for i, x in enumerate(doc) if x == token]
-            # matches += [docs.index(doc), len(indexes), indexes]
-            matches += [docs.index(doc), len(indexes)]
-        if matches:
-            values.append(matches)
+            values.append([len(indexes), indexes])
+            # values.append([docs.index(doc), len(indexes)])
+        else:
+            values.append(0)
     all_matches.append(values)
     return all_matches
 
@@ -77,9 +76,11 @@ docs = list(map(clean_stemmer, docs))
 my_dict = get_dict(docs)
 fi = get_fii(docs)
 
-for item in fi:
-    for value in item[1]:
-        value[1] = get_weight(value[1])
+#######
+# for item in fi:
+#     # print(item)
+#     for value in item[1]:
+#         value[1] = get_weight(value[1])
 
 for item in fi:
     print(item)
