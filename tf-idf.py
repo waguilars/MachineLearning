@@ -5,7 +5,7 @@ import re
 
 
 def get_weight(tf):
-    if tf > 0:
+    if tf and tf > 0:
         return 1+math.log10(tf)
     else:
         return 0
@@ -46,10 +46,10 @@ def get_positions(token, docs):
     for doc in docs:
         if token in doc:
             indexes = [i for i, x in enumerate(doc) if x == token]
-            values.append([len(indexes), indexes])
-            # values.append([docs.index(doc), len(indexes)])
+            # values.append([len(indexes), indexes])
+            values.append(len(indexes))
         else:
-            values.append(0)
+            values.append(None)
     all_matches.append(values)
     return all_matches
 
@@ -76,11 +76,15 @@ docs = list(map(clean_stemmer, docs))
 my_dict = get_dict(docs)
 fi = get_fii(docs)
 
+
+for row in fi:
+    row[1] = list(map(get_weight, row[1]))
+    # for value in row[1]:
+    #     new_values.append(get_weight(value))
+    #     row[1] = new_values
+
 #######
-# for item in fi:
-#     # print(item)
-#     for value in item[1]:
-#         value[1] = get_weight(value[1])
+
 
 for item in fi:
     print(item)
