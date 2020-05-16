@@ -77,14 +77,22 @@ my_dict = get_dict(docs)
 fi = get_fii(docs)
 
 
-for row in fi:
-    row[1] = list(map(get_weight, row[1]))
-    # for value in row[1]:
-    #     new_values.append(get_weight(value))
-    #     row[1] = new_values
+# for row in fi:
+#     row[1] = list(map(get_weight, row[1]))
+# for value in row[1]:
+#     new_values.append(get_weight(value))
+#     row[1] = new_values
 
 #######
 
+""" log10 (N/df)  """
 
 for item in fi:
-    print(item)
+    doc_idf = []
+    for quantity in item[1]:
+        if(quantity):
+            doc_idf.append(math.log10(len(docs)/quantity))
+        else:
+            doc_idf.append(None)
+    print(item[0])
+    print(doc_idf)
