@@ -81,10 +81,10 @@ def get_fii(docs):
 
 
 if __name__ == "__main__":
-    doc1 = "To do is to be. To be is to do"
-    doc2 = "To be or not to be. I am what I am"
-    doc3 = "I think therefore I am. Do be do be do."
-    doc4 = "Do do do, da da da. Let it be, let it be"
+    doc1 = "To do is to be. To be is to do hola hola"
+    doc2 = "To be or not to be. I am what I am hola"
+    doc3 = "I think therefore I am. Do be do be do. hola"
+    doc4 = "Do do do, da da da. Let it be, let it be hola"
 
     docs = []
     docs.append(doc1)

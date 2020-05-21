@@ -4,7 +4,7 @@ from nltk.stem.porter import PorterStemmer
 import re
 
 
-def get_weight(tf):
+def get_tf(tf):
     if tf and tf > 0:
         return 1+math.log10(tf)
     else:
@@ -88,11 +88,6 @@ fi = get_fii(docs)
 """ log10 (N/df)  """
 
 for item in fi:
-    doc_idf = []
-    for quantity in item[1]:
-        if(quantity):
-            doc_idf.append(math.log10(len(docs)/quantity))
-        else:
-            doc_idf.append(None)
-    print(item[0])
-    print(doc_idf)
+    print(item)
+    tf = sum(x for x in item[1] if x is not None)
+    df = sum(1 for x in item[1] if x is not None)
