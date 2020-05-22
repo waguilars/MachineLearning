@@ -58,6 +58,37 @@ def get_jackar(docs):
     return jaccard_mtx
 
 
+def get_dict(cleaned_docs):
+    data = []
+    for doc in cleaned_docs:
+        data += doc
+    return list(set(data))
+
+
+def get_positions(token, docs):
+    all_matches = [token]
+    for doc in docs:
+        matches = []
+        if token in doc:
+            indexes = [i for i, x in enumerate(doc) if x == token]
+            # matches += [docs.index(doc), len(indexes), indexes]
+            matches += [docs.index(doc), len(indexes)]
+        if matches:
+            all_matches.append(matches)
+    return all_matches
+
+
+def get_fii(docs):
+
+    newdoc = []
+    for doc in docs:
+        newdoc.append(clean(doc))
+    docs = newdoc
+    my_dict = get_dict(docs)
+    fii = map(lambda x: get_positions(x, docs), my_dict)
+    return list(fii)
+
+
 if __name__ == "__main__":
     data = pd.read_csv('C:/Users/Ricardo/Desktop/dieguillo/python/ulti/dato.csv')
     titles = list(data['title'])
@@ -75,11 +106,20 @@ if __name__ == "__main__":
 
     titles = get_jackar(titles)
     keywords = get_jackar(keywords)
-    print(titles)
-    print('----------------')
-    print(keywords)
+    # print(titles)
+    # print('----------------')
+    # print(keywords)
+    fii=get_fii(abstracts)
+    palabras=[]
+    for i in fii:
+        palabras.append(i[0])
+    coseno=pd.DataFrame(float(0), index=palabras, columns=['doc'+str(x) for x in range(len(abstracts))])
 
-    # jackcard_titulos = get_jackar()  # ponderacion 10
-    # jackcard_keywords = get_jackar(pd.DataFrame(
-    #     float, index=nombres, columns=nombres), docs[1])  # ponderacion 30
-
+    for i in fii:
+        con=0
+        for j in i:
+            if con!=0:
+                coseno._set_value(i[0],"doc"+str(j[0]),j[1])
+            con+=1
+            
+    print(coseno)
