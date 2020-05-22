@@ -121,5 +121,4 @@ if __name__ == "__main__":
             if con!=0:
                 coseno._set_value(i[0],"doc"+str(j[0]),j[1])
             con+=1
-            
     print(coseno)
