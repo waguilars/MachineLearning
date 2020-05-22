@@ -3,6 +3,7 @@ import numpy as np
 import re
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
+import math as ma
 
 
 def clean(a):
@@ -113,12 +114,28 @@ if __name__ == "__main__":
     palabras=[]
     for i in fii:
         palabras.append(i[0])
-    coseno=pd.DataFrame(float(0), index=palabras, columns=['doc'+str(x) for x in range(len(abstracts))])
-
+    tb_wtf=pd.DataFrame(float(0), index=palabras, columns=['doc'+str(x) for x in range(len(abstracts))])
+    tb_tf=pd.DataFrame(float(0), index=palabras, columns=['doc'+str(x) for x in range(len(abstracts))])
     for i in fii:
         con=0
         for j in i:
             if con!=0:
-                coseno._set_value(i[0],"doc"+str(j[0]),j[1])
+                tb_tf._set_value(i[0],"doc"+str(j[0]),j[1]) #tabla tf
             con+=1
-    print(coseno)
+    
+    con=0
+    #print(tb_tf)
+    for index, row in tb_tf.iterrows():
+        for i,ind in row.iteritems():
+            if ind != 0:
+                #print(index," ",i,(1+ma.log(ind,10)))#index nombre fila , # i columna nombre, #ind term frecuency
+                tb_wtf._set_value(index,i,(1+ma.log(ind,10))) # tabla wtf
+    term=pd.DataFrame(int(0), index=palabras, columns=['frecuency'])
+    for index, row in tb_tf.iterrows():
+        con=0
+        for i,ind in row.iteritems():
+            if ind != 0:
+                con+=1
+        term._set_value(index,'frecuency',con)
+    for i in term.iterrows():
+        print(i)
