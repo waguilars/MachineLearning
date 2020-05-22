@@ -131,7 +131,7 @@ if __name__ == "__main__":
                 #print(index," ",i,(1+ma.log(ind,10)))#index nombre fila , # i columna nombre, #ind term frecuency
                 tb_wtf._set_value(index,i,(1+ma.log(ind,10))) # tabla wtf
     
-    idf=pd.DataFrame(int(0), index=palabras, columns=['frecuency'])
+    idf=pd.DataFrame(float(0), index=palabras, columns=['frecuency'])
     for index, row in tb_tf.iterrows():
         con=0
         for i,ind in row.iteritems():
@@ -139,6 +139,15 @@ if __name__ == "__main__":
                 con+=1
         if con!=0:
             op=ma.log((len(tb_wtf.columns)/con),10)
+            #print(op)
             idf._set_value(index,'frecuency',op)
         else:
             idf._set_value(index,'frecuency',con)
+    
+    tb_tf_idf=pd.DataFrame(float(0), index=palabras, columns=['doc'+str(x) for x in range(len(abstracts))])
+    for index, row in tb_wtf.iterrows():
+        for i,ind in row.iteritems():
+            #index nombre fila , # i columna nombre, #ind term frecuency
+            tb_tf_idf._set_value(index,i,(ind*idf._get_value(index,'frecuency')))
+            #print((index," ",i," ",ind,"x",idf._get_value(index,'frecuency'),"=",(ind*idf._get_value(index,'frecuency'))))
+    print(tb_tf_idf)
