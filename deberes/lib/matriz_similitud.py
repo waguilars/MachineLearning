@@ -127,6 +127,16 @@ def get_tf_idf(palabras,abstracts,tb_wtf,idf):
             tb_tf_idf._set_value(index,i,(ind*idf._get_value(index,'frecuency')))
     return tb_tf_idf
 
+def normalize_tf_idf(tf_idf):
+    tf=tf_idf
+    nom=tf.columns.tolist()
+    for i in nom:
+        columna=tf[i].tolist()
+        res=ma.sqrt(sum(value**2 for value in columna))
+        div=[value/res for value in columna]
+        tf[i]=div
+    return tf
+
 
 if __name__ == "__main__":
     data = pd.read_csv('C:/Users/Ricardo/Desktop/dieguillo/python/ulti/dato.csv')
@@ -164,3 +174,6 @@ if __name__ == "__main__":
 
     tb_tf_idf=get_tf_idf(palabras,abstracts,wtf,idf)
     print(tb_tf_idf)
+    n_tf_idf=normalize_tf_idf(tb_tf_idf)
+    print(n_tf_idf)
+    
