@@ -33,39 +33,6 @@ def to_string(titles):
         document += item+" "
     return document.strip()
 
-
-def get_dict(cleaned_docs):
-    data = []
-    for doc in cleaned_docs:
-        data += doc
-    return list(set(data))
-
-
-def get_positions(token, docs):
-    all_matches = []
-    for doc in docs:
-        matches = []
-        if token in doc:
-            indexes = [i for i, x in enumerate(doc) if x == token]
-            matches += [docs.index(doc), len(indexes)]
-            # matches += [docs.index(doc), len(indexes),indexes]
-        if matches:
-            all_matches.append(matches)
-    if all_matches:
-        return all_matches
-    if None in all_matches:
-        return None
-
-
-def fii(diccionario, list_docs):
-    dic = []
-    for token in diccionario:
-        data = list(map(lambda x: get_positions(token, x), list_docs))
-        a = [token, data]
-        dic.append(a)
-    return dic
-
-
 def do_nlp(lista):
     lista = list(map(clean, lista))
     lista = list(map(clean_stop_words, lista))
@@ -92,7 +59,7 @@ def get_jackar(docs):
 
 
 if __name__ == "__main__":
-    data = pd.read_csv('/home/will/Descargas/data.csv')
+    data = pd.read_csv('C:/Users/Ricardo/Desktop/dieguillo/python/ulti/dato.csv')
     titles = list(data['title'])
     keywords = list(data['keywords'])
     abstracts = list(data['abstract'])
@@ -116,8 +83,3 @@ if __name__ == "__main__":
     # jackcard_keywords = get_jackar(pd.DataFrame(
     #     float, index=nombres, columns=nombres), docs[1])  # ponderacion 30
 
-    dicionario = []
-    for i in docs:
-        dicionario += get_dict(i)
-    dicionario = set(dicionario)
-    full_ii = fii(dicionario, docs)
