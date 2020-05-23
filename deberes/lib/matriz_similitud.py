@@ -147,6 +147,21 @@ def normalize_tf_idf(tf_idf):
     return tf
 
 
+def get_cos_mtx(tf_idf_mtx):
+    labels = tf_idf_mtx.columns
+    cos_mtx = pd.DataFrame(float, index=labels, columns=labels)
+
+    for i in range(len(labels)):
+        for j in range(len(labels)):
+
+            doc1 = tf_idf_mtx['doc'+str(i)].tolist()
+            doc2 = tf_idf_mtx['doc'+str(j)].tolist()
+            value = sum(val1*val2 for val1, val2 in zip(doc1, doc2))
+            cos_mtx['doc'+str(i)]['doc'+str(j)] = value
+
+    return cos_mtx
+
+
 if __name__ == "__main__":
     data = pd.read_csv('/home/will/Descargas/data.csv')
     titles = list(data['title'])
@@ -186,3 +201,7 @@ if __name__ == "__main__":
     print(tb_tf_idf)
     n_tf_idf = normalize_tf_idf(tb_tf_idf)
     print(n_tf_idf)
+    print('-------------------')
+
+    sim_cos = get_cos_mtx(n_tf_idf)
+    print(sim_cos)
