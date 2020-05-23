@@ -1,12 +1,12 @@
+import timeit
+import math as ma
+from nltk.stem.porter import PorterStemmer
+from nltk.corpus import stopwords
 import pandas as pd
 import numpy as np
 import re
 import nltk
 nltk.download("stopwords")
-from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
-import math as ma
-import timeit
 
 
 def clean(a):
@@ -197,7 +197,8 @@ if __name__ == "__main__":
     tf = get_tf_word_bag(fii, palabras, abstracts, True)  # term frecuency
     # print('------- WORD BAG TEMR FRECUENCY ---------')
     # print(tf)
-    wtf = get_tf_word_bag(fii, palabras, abstracts,False)  # weight term frecuency
+    wtf = get_tf_word_bag(fii, palabras, abstracts,
+                          False)  # weight term frecuency
     # print('------- WTF ---------')
     # print(wtf)
 
@@ -216,13 +217,13 @@ if __name__ == "__main__":
     # print('------- TF-IDF NORMALIZADA ---------')
     # print(n_tf_idf)
 
-    sim_cos = get_cos_mtx(n_tf_idf)
-    print('------- MATRIZ SIMILITUD COSENO ---------')
-    print(sim_cos)
+    abstracts = get_cos_mtx(n_tf_idf)
+    print('------- MATRIZ SIMILITUD COSENO ABSTRACTS ---------')
+    print(abstracts)
 
-    simi=(titles*0.1)+(keywords*0.3)+(sim_cos*0.6)
+    simi = (titles*0.1)+(keywords*0.3)+(abstracts*0.6)
     print('------- MATRIZ SIMILITUD CON PONDERACION ---------')
     print(simi)
-    
+
     fin = timeit.default_timer()
     print('Tiempo total: ', fin - init)
