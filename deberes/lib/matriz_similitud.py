@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import re
+import nltk
+nltk.download("stopwords")
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 import math as ma
@@ -166,7 +168,7 @@ def get_cos_mtx(tf_idf_mtx):
 
 if __name__ == "__main__":
     init = timeit.default_timer()
-    data = pd.read_csv('/home/will/Descargas/data.csv')
+    data = pd.read_csv('docs.csv')
     titles = list(data['title'])
     keywords = list(data['keywords'])
     abstracts = list(data['abstract'])
@@ -181,32 +183,46 @@ if __name__ == "__main__":
     abstracts = docs[2]
 
     titles = get_jackar(titles)
+    print('------- JACK CARD TITULOS ---------')
+    print(titles)
+
     keywords = get_jackar(keywords)
-    # print(titles)
-    # print('----------------')
-    # print(keywords)
+    print('------- JACK CARD KEYWORD ---------')
+    print(keywords)
+
     fii = get_fii(abstracts)
     palabras = []
     for i in fii:
         palabras.append(i[0])
     tf = get_tf_word_bag(fii, palabras, abstracts, True)  # term frecuency
-    wtf = get_tf_word_bag(fii, palabras, abstracts,
-                          False)  # weight term frecuency
+    # print('------- WORD BAG TEMR FRECUENCY ---------')
     # print(tf)
+    wtf = get_tf_word_bag(fii, palabras, abstracts,False)  # weight term frecuency
+    # print('------- WTF ---------')
     # print(wtf)
 
     df = get_df_idf(palabras, tf, wtf, False)  # document frecuency
-    idf = get_df_idf(palabras, tf, wtf, True)  # invert document frecuency
+    # print('------- DF ---------')
     # print(df)
+    idf = get_df_idf(palabras, tf, wtf, True)  # invert document frecuency
+    # print('------- WTF ---------')
     # print(idf)
 
     tb_tf_idf = get_mtx_tf_idf(palabras, abstracts, wtf, idf)
-    print(tb_tf_idf)
+    # print('------- TF-IDF ---------')
+    # print(tb_tf_idf)
+
     n_tf_idf = normalize_tf_idf(tb_tf_idf)
-    print(n_tf_idf)
-    print('-------------------')
+    # print('------- TF-IDF NORMALIZADA ---------')
+    # print(n_tf_idf)
 
     sim_cos = get_cos_mtx(n_tf_idf)
+    print('------- MATRIZ SIMILITUD COSENO ---------')
     print(sim_cos)
+
+    simi=(titles*0.1)+(keywords*0.3)+(sim_cos*0.6)
+    print('------- MATRIZ SIMILITUD CON PONDERACION ---------')
+    print(simi)
+    
     fin = timeit.default_timer()
     print('Tiempo total: ', fin - init)
