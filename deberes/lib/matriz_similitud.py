@@ -4,6 +4,7 @@ import re
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 import math as ma
+import timeit
 
 
 def clean(a):
@@ -164,6 +165,7 @@ def get_cos_mtx(tf_idf_mtx):
 
 
 if __name__ == "__main__":
+    init = timeit.default_timer()
     data = pd.read_csv('/home/will/Descargas/data.csv')
     titles = list(data['title'])
     keywords = list(data['keywords'])
@@ -206,3 +208,5 @@ if __name__ == "__main__":
 
     sim_cos = get_cos_mtx(n_tf_idf)
     print(sim_cos)
+    fin = timeit.default_timer()
+    print('Tiempo total: ', fin - init)
