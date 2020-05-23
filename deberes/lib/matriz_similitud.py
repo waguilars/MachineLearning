@@ -152,12 +152,13 @@ def get_cos_mtx(tf_idf_mtx):
     cos_mtx = pd.DataFrame(float, index=labels, columns=labels)
 
     for i in range(len(labels)):
-        for j in range(len(labels)):
+        for j in range(i, len(labels)):
 
             doc1 = tf_idf_mtx['doc'+str(i)].tolist()
             doc2 = tf_idf_mtx['doc'+str(j)].tolist()
             value = sum(val1*val2 for val1, val2 in zip(doc1, doc2))
             cos_mtx['doc'+str(i)]['doc'+str(j)] = value
+            cos_mtx['doc'+str(j)]['doc'+str(i)] = value
 
     return cos_mtx
 
