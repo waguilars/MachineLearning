@@ -4,7 +4,7 @@ from nltk.stem.porter import PorterStemmer
 import re
 
 
-def get_tf(tf):
+def get_wtf(tf):
     if tf and tf > 0:
         return 1+math.log10(tf)
     else:

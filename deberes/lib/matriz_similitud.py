@@ -1,3 +1,10 @@
+""" 
+Integrantes:
+    Wilson Aguilar
+    Gabriel Cacuango
+    Ricardo Romo
+    Christian Lasso
+"""
 import timeit
 import math as ma
 from nltk.stem.porter import PorterStemmer
@@ -101,7 +108,7 @@ def get_tf_word_bag(fii, palabras, documentos, weighted=True):
         con = 0
         for j in i:
             if con != 0:
-                if weighted == True:
+                if weighted == False:
                     tb_tf._set_value(i[0], "doc"+str(j[0]), j[1])  # tabla tf
                 else:
                     tb_tf._set_value(i[0], "doc"+str(j[0]),
@@ -168,7 +175,7 @@ def get_cos_mtx(tf_idf_mtx):
 
 if __name__ == "__main__":
     init = timeit.default_timer()
-    data = pd.read_csv('docs.csv')
+    data = pd.read_csv('/home/will/Descargas/data_full.csv')
     titles = list(data['title'])
     keywords = list(data['keywords'])
     abstracts = list(data['abstract'])
