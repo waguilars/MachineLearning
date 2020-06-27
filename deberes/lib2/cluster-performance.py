@@ -33,16 +33,23 @@ plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[
             :, 1], s=75, c='red', label='Centroids')
 plt.title('k-means with 3 clusters')
 
-plt.show()
+# plt.show()
 
 #############################################
 #                   DHC
 #############################################
 
 dendrogram = dendrogram(linkage(iris, method='complete'))
-model = AgglomerativeClustering(n_clusters=5, affinity='euclidean', linkage='complete')
-model.fit(iris)
+model = AgglomerativeClustering(n_clusters=3, affinity='euclidean', linkage='complete')
+model.fit_predict(iris)
 labels = model.labels_
 plt.axhline(y=3.5, c='k')
-plt.show()
+# plt.show()
+
+##### clusters
+kmeans_clusters=y_kmeans
+dhc_clusters=labels
+
+print(kmeans_clusters)
+print(dhc_clusters)
 
