@@ -12,8 +12,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import AgglomerativeClustering
 from scipy.cluster.hierarchy import dendrogram, linkage
+from sklearn.metrics import silhouette_score
 
-iris = np.array(load_iris().data)
+dataset = load_iris()
+iris = np.array(dataset.data)
 
 #############################################
 #                   Kmeans
@@ -35,14 +37,20 @@ plt.title('k-means with 3 clusters')
 
 # plt.show()
 
+# |> Índices de Validación Interna
+#     Silueta
+silhouette = silhouette_score(iris, y_kmeans, sample_size=50)
+print('Indice de la silueta Kmeans: ', silhouette)
+
+
 #############################################
 #                   DHC
 #############################################
 
 dendrogram = dendrogram(linkage(iris, method='complete'))
 model = AgglomerativeClustering(n_clusters=3, affinity='euclidean', linkage='complete')
-model.fit_predict(iris)
-labels = model.labels_
+model.fit(iris)
+labels = model.fit_predict(iris)
 plt.axhline(y=3.5, c='k')
 # plt.show()
 
@@ -52,4 +60,10 @@ dhc_clusters=labels
 
 print(kmeans_clusters)
 print(dhc_clusters)
+
+# |> Índices de Validación Interna
+#     Silueta
+silhouette = silhouette_score(iris, labels, sample_size=50)
+print('Indice de la silueta DHC: ', silhouette)
+
 
