@@ -7,7 +7,7 @@ from sklearn.cluster import AgglomerativeClustering
 import scipy.cluster.hierarchy as shc
 
 
-data=pd.DataFrame(load_iris().data)
+data = pd.DataFrame(load_iris().data)
 
 data_scaled = normalize(data)
 
@@ -15,12 +15,14 @@ data_scaled = pd.DataFrame(data_scaled, columns=data.columns)
 
 # print(data_scaled.head())
 
-plt.figure(figsize=(10, 7))  
-plt.title("Dendrograms")  
-shc.dendrogram(shc.linkage(data_scaled,method='single', metric='euclidean', optimal_ordering=False))
+plt.figure(figsize=(10, 7))
+plt.title("Dendrograms")
+shc.dendrogram(shc.linkage(data_scaled, method='complete',
+                           metric='euclidean', optimal_ordering=False))
 plt.axhline(y=0.40, color='r', linestyle='--')
 plt.show()
 
-cluster = AgglomerativeClustering(n_clusters=3, affinity='euclidean', linkage='ward')  
-cluster=cluster.fit_predict(data_scaled)
+cluster = AgglomerativeClustering(
+    n_clusters=3, affinity='euclidean', linkage='complete')
+cluster = cluster.fit_predict(data_scaled)
 print(cluster)

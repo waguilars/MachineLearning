@@ -8,24 +8,17 @@ Integrantes:
 
 from sklearn.cluster import KMeans
 from sklearn.datasets import load_iris
-import matplotlib.pyplot as plt
-
 import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import AgglomerativeClustering
+from scipy.cluster.hierarchy import dendrogram, linkage
 
 iris = np.array(load_iris().data)
 
-wi = [None] * 11
+#############################################
+#                   Kmeans
+#############################################
 
-for i in range(1, 10):
-    kmeans = KMeans(n_clusters=i, random_state=0).fit(iris)
-
-    wi[i] = kmeans.inertia_
-
-plt.plot(wi, marker='o')
-plt.title('Elbow - Numero de clusters')
-plt.show()  # the best group size is 2 or 3
-
-# Plot with 3 clusters
 kmeans = KMeans(n_clusters=3, random_state=0).fit(iris)
 y_kmeans = kmeans.fit_predict(iris)
 
@@ -41,3 +34,15 @@ plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[
 plt.title('k-means with 3 clusters')
 
 plt.show()
+
+#############################################
+#                   DHC
+#############################################
+
+dendrogram = dendrogram(linkage(iris, method='complete'))
+model = AgglomerativeClustering(n_clusters=5, affinity='euclidean', linkage='complete')
+model.fit(iris)
+labels = model.labels_
+plt.axhline(y=3.5, c='k')
+plt.show()
+
