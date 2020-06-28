@@ -3,7 +3,7 @@ Integrantes:
 - Wilson Aguilar
 - Gabriel Cacuango
 - Christian Lasso
-- Ricardo Romo
+- Ricardo Romo 
 """
 
 from sklearn.cluster import KMeans
@@ -13,9 +13,46 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import AgglomerativeClustering
 from scipy.cluster.hierarchy import dendrogram, linkage
 from sklearn.metrics import silhouette_score
-
+import pandas as pd
 dataset = load_iris()
 iris = np.array(dataset.data)
+
+def delta(ck, cl):
+    values = np.ones([len(ck), len(cl)])*10000
+    
+    for i in range(0, len(ck)):
+        for j in range(0, len(cl)):
+            values[i, j] = np.linalg.norm(ck[i]-cl[j])
+            
+    return np.min(values)
+    
+def big_delta(ci):
+    values = np.zeros([len(ci), len(ci)])
+    
+    for i in range(0, len(ci)):
+        for j in range(0, len(ci)):
+            values[i, j] = np.linalg.norm(ci[i]-ci[j])
+            
+    return np.max(values)
+
+def dunn(k_list):
+
+    deltas = np.ones([len(k_list), len(k_list)])*1000000
+    big_deltas = np.zeros([len(k_list), 1])
+    l_range = list(range(0, len(k_list)))
+    
+    for k in l_range:
+        for l in (l_range[0:k]+l_range[k+1:]):
+            deltas[k, l] = delta(k_list[k], k_list[l])
+        
+        big_deltas[k] = big_delta(k_list[k])
+
+    di = np.min(deltas)/np.max(big_deltas)
+    return di
+
+
+
+
 
 #############################################
 #                   Kmeans
@@ -55,14 +92,38 @@ plt.axhline(y=3.5, c='k')
 # plt.show()
 
 ##### clusters
-kmeans_clusters=y_kmeans
-dhc_clusters=labels
 
-print(kmeans_clusters)
-print(dhc_clusters)
+#KMENAS CLUSTERS
+pred = pd.DataFrame(y_kmeans)
+pred.columns=['Species']
+df=pd.DataFrame(dataset.data)
+prediction = pd.concat([df,pred],axis=1)
+clus0 = prediction.loc[prediction.Species == 0]
+clus1 = prediction.loc[prediction.Species == 1]
+clus2 = prediction.loc[prediction.Species == 2]
+k_list_clusters = [clus0.values, clus1.values,clus2.values]
+
+#DHC CLUSTERS
+predhc = pd.DataFrame(labels)
+predhc.columns=['Species']
+predictiondhc = pd.concat([df,predhc],axis=1)
+clus0dhc = predictiondhc.loc[predictiondhc.Species == 0]
+clus1dhc = predictiondhc.loc[predictiondhc.Species == 1]
+clus2dhc = predictiondhc.loc[predictiondhc.Species == 2]
+dhc_list_clusters=[clus0dhc.values,clus1dhc.values,clus2dhc.values]
+
+
+
 
 # |> Índices de Validación Interna
-#     Silueta
+#     Dunn 
+dunn_kmeans=dunn(k_list_clusters)
+dunn_dhc=dunn(dhc_list_clusters)
+print("indice de dunn KMEANS: ",dunn_kmeans)
+print("indice de dunn DHC: ",dunn_dhc)
+
+
+# #     Silueta
 silhouette = silhouette_score(iris, labels, sample_size=50)
 print('Indice de la silueta DHC: ', silhouette)
 
