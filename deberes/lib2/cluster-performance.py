@@ -50,9 +50,15 @@ def dunn(k_list):
     di = np.min(deltas)/np.max(big_deltas)
     return di
 
-
-
-
+def get_cluster(df,clusters):
+    pred = pd.DataFrame(y_kmeans)
+    pred.columns=['Species']
+    prediction = pd.concat([df,pred],axis=1)
+    clus0 = prediction.loc[prediction.Species == 0]
+    clus1 = prediction.loc[prediction.Species == 1]
+    clus2 = prediction.loc[prediction.Species == 2]
+    list_clusters = [clus0.values, clus1.values,clus2.values]
+    return list_clusters
 
 #############################################
 #                   Kmeans
@@ -92,39 +98,25 @@ plt.axhline(y=3.5, c='k')
 # plt.show()
 
 ##### clusters
-
-#KMENAS CLUSTERS
-pred = pd.DataFrame(y_kmeans)
-pred.columns=['Species']
 df=pd.DataFrame(dataset.data)
-prediction = pd.concat([df,pred],axis=1)
-clus0 = prediction.loc[prediction.Species == 0]
-clus1 = prediction.loc[prediction.Species == 1]
-clus2 = prediction.loc[prediction.Species == 2]
-k_list_clusters = [clus0.values, clus1.values,clus2.values]
-
+#KMENAS CLUSTERS
+k_cluster=get_cluster(df,y_kmeans)
 #DHC CLUSTERS
-predhc = pd.DataFrame(labels)
-predhc.columns=['Species']
-predictiondhc = pd.concat([df,predhc],axis=1)
-clus0dhc = predictiondhc.loc[predictiondhc.Species == 0]
-clus1dhc = predictiondhc.loc[predictiondhc.Species == 1]
-clus2dhc = predictiondhc.loc[predictiondhc.Species == 2]
-dhc_list_clusters=[clus0dhc.values,clus1dhc.values,clus2dhc.values]
+d_cluster=get_cluster(df,labels)
 
 
 
 
 # |> Índices de Validación Interna
 #     Dunn 
-dunn_kmeans=dunn(k_list_clusters)
-dunn_dhc=dunn(dhc_list_clusters)
+dunn_kmeans=dunn(k_cluster)
+dunn_dhc=dunn(d_cluster)
 print("indice de dunn KMEANS: ",dunn_kmeans)
 print("indice de dunn DHC: ",dunn_dhc)
 
 
 # #     Silueta
-silhouette = silhouette_score(iris, labels, sample_size=50)
-print('Indice de la silueta DHC: ', silhouette)
+# silhouette = silhouette_score(iris, labels, sample_size=50)
+# print('Indice de la silueta DHC: ', silhouette)
 
 
