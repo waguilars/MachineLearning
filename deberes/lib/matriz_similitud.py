@@ -175,7 +175,7 @@ def get_cos_mtx(tf_idf_mtx):
 
 if __name__ == "__main__":
     init = timeit.default_timer()
-    data = pd.read_csv('/home/will/Descargas/data_full.csv')
+    data = pd.read_csv('lib2/papers-2014.csv')
     titles = list(data['title'])
     keywords = list(data['keywords'])
     abstracts = list(data['abstract'])
@@ -234,3 +234,5 @@ if __name__ == "__main__":
 
     fin = timeit.default_timer()
     print('Tiempo total: ', fin - init)
+
+    simi.to_pickle('mtx', protocol = 4)
