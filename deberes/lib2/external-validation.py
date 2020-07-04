@@ -18,4 +18,10 @@ from validclust.indices import dunn, silhouette_score
 from validclust.validclust import ValidClust
 
 mtx = pd.read_pickle('mtx_icmla')
-print(mtx)
+
+data = pd.read_csv('ICMLA.csv')
+
+data.session = pd.Categorical(data.session)
+labels = data.session.cat.codes.to_numpy()
+print(labels)
+
