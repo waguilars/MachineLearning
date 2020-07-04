@@ -1,10 +1,12 @@
-""" 
+"""
 Integrantes:
     Wilson Aguilar
     Gabriel Cacuango
     Ricardo Romo
     Christian Lasso
 """
+# !pip install validclust
+
 import math as ma
 import pandas as pd
 import numpy as np
