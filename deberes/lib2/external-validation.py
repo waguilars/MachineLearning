@@ -40,13 +40,14 @@ model = AgglomerativeClustering(
 plt.axhline(y=3.5, c='k')
 plt.show()
 
-
+print('---------- Indice de validación interna ----------')
 dunn_index = dunn(dist, labelsp)
 print('Indice de dunn: ', dunn_index)
 
 silhouette_index = silhouette_score(mtx, labelsp)
 print('Indice de silueta: ', silhouette_index)
 
+print('---------- Indice de validación externa ----------')
 nmi = normalized_mutual_info_score(labels, labelsp)
 ami = adjusted_mutual_info_score(labels, labelsp)
 ari = adjusted_rand_score(labels, labelsp)
