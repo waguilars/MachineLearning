@@ -35,6 +35,9 @@ print("----- Leave-one-out ----- ")
 loo = LeaveOneOut()
 print(loo.get_n_splits(X))
 for train_index, test_index in loo.split(X):
-    print("TRAIN:", train_index, "TEST:", test_index)
+    # print("TRAIN:", train_index, "TEST:", test_index)
     X_train, X_test = X[train_index], X[test_index]
     y_train, y_test = y[train_index], y[test_index]
+    # aqui nos imprime las 100 iteraciones
+    # lo comentamos por que ocupa mucho espacio en la pantalla
+    # print(X_train, y_train, y_test)
