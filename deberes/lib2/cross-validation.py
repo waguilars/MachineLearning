@@ -15,8 +15,9 @@ X, y = load_iris(return_X_y=True)
 # X, y = shuffle(iris.data, iris.target, random_state=0)
 
 #  50 primeras setosa  y 51 al 100  versicolor 
-X = X[0:100]
-y = y[0:100]
+
+X = X[50:150]
+y = y[50:150]
 
 # division del dataset training 70% y test 30 % 
 X_train,X_test,y_train,y_test= train_test_split(X,y,test_size=0.3,random_state=0)
