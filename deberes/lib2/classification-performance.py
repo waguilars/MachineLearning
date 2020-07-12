@@ -4,18 +4,18 @@ import numpy as np
 from sklearn.metrics import confusion_matrix, precision_score, accuracy_score, recall_score
 
 
-def get_accuracy(confusion_mtx):
-    tp_tn = sum(np.diag(test))
-    total = np.sum(test)
+def get_accuracy(conf_mtx):
+    tp_tn = sum(np.diag(conf_mtx))
+    total = np.sum(conf_mtx)
     return tp_tn / total
 
 
-def get_recall(confusion_mtx):
-    dimension = list(data.shape)
+def get_recall(conf_mtx):
+    dimension = list(conf_mtx.shape)
     recall = []
     for i in range(dimension[0]):
-        tp_fn_r = sum(data[i, :])
-        tp_r = data[i][i]
+        tp_fn_r = sum(conf_mtx[i, :])
+        tp_r = conf_mtx[i][i]
         recall.append(tp_r/tp_fn_r)
     return recall
 
@@ -25,13 +25,11 @@ y_actu = [2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2]
 y_pred = [0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2]
 test = confusion_matrix(y_actu, y_pred)
 
-tp_tn = sum(np.diag(test))
-total = np.sum(test)
 
-accuracy = tp_tn / total
-print('manual accuracy: ', accuracy)
+print('manual accuracy: ', get_accuracy(test))
 print('sklearn accuracy: ', accuracy_score(y_actu, y_pred))
 print('sklearn presicion: ', precision_score(y_actu, y_pred, average=None))
+print('manual recall: ', get_recall(test))
 print('sklearn recall: ', recall_score(y_actu, y_pred, average=None))
 ###################### deber ###################
 print('-----------------   deber ----------')
@@ -56,8 +54,10 @@ total = np.sum(data)
 # ==========================
 recall = get_recall(test)
 print("recall: ", recall)
+
+
 # ==========================
 #         ACCURACY
 # ==========================
-accuracy = tp_tn / total
+accuracy = get_accuracy(data)
 print("accuracy: ", accuracy)
