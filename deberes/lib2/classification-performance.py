@@ -9,16 +9,17 @@ def get_accuracy(conf_mtx):
     total = np.sum(conf_mtx)
     return tp_tn / total
 
+def get_recall(data):
+    test = data.sum(axis=1)
+    diagonal = np.diag(data)
+    res = np.divide(diagonal,test)
+    return res
 
-def get_recall(conf_mtx):
-    dimension = list(conf_mtx.shape)
-    recall = []
-    for i in range(dimension[0]):
-        tp_fn_r = sum(conf_mtx[i, :])
-        tp_r = conf_mtx[i][i]
-        recall.append(tp_r/tp_fn_r)
-    return recall
-
+def get_precision(data):
+    test = data.sum(axis=0)
+    diagonal = np.diag(data)
+    res = np.divide(diagonal,test)
+    return res
 
 ########### Test ##########################
 y_actu = [2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2]
@@ -48,11 +49,16 @@ data = np.array([
 
 tp_tn = sum(np.diag(data))
 total = np.sum(data)
+# ==========================
+#           PRESICION
+# ==========================
+presicion = get_precision(data)
+print("presicion: ",presicion)
 
 # ==========================
 #           RECALL
 # ==========================
-recall = get_recall(test)
+recall = get_recall(data)
 print("recall: ", recall)
 
 
