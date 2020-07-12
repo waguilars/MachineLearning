@@ -3,14 +3,22 @@ import numpy as np
 
 from sklearn.metrics import confusion_matrix, precision_score, accuracy_score, recall_score
 
-def get_recall(data):
+
+def get_accuracy(confusion_mtx):
+    tp_tn = sum(np.diag(test))
+    total = np.sum(test)
+    return tp_tn / total
+
+
+def get_recall(confusion_mtx):
     dimension = list(data.shape)
-    recall=[]
+    recall = []
     for i in range(dimension[0]):
-            tp_fn_r=sum(data[i,:])
-            tp_r=data[i][i]
-            recall.append(tp_r/tp_fn_r)
+        tp_fn_r = sum(data[i, :])
+        tp_r = data[i][i]
+        recall.append(tp_r/tp_fn_r)
     return recall
+
 
 ########### Test ##########################
 y_actu = [2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2]
@@ -46,11 +54,10 @@ total = np.sum(data)
 # ==========================
 #           RECALL
 # ==========================
-recall=get_recall(test)
-print("recall: ",recall)
+recall = get_recall(test)
+print("recall: ", recall)
 # ==========================
 #         ACCURACY
 # ==========================
 accuracy = tp_tn / total
-print("accuracy: ",accuracy)
-
+print("accuracy: ", accuracy)
