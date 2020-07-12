@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from sklearn.metrics import confusion_matrix, precision_score, accuracy_score
+from sklearn.metrics import confusion_matrix, precision_score, accuracy_score, recall_score
 
 ########### Test ##########################
 y_actu = [2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2]
@@ -13,8 +13,10 @@ total = np.sum(test)
 
 
 accuracy = tp_tn / total
-print('manual: ', accuracy)
-print('sklearn: ', accuracy_score(y_actu, y_pred))
+print('manual accuracy: ', accuracy)
+print('sklearn accuracy: ', accuracy_score(y_actu, y_pred))
+print('sklearn presicion: ', precision_score(y_actu, y_pred, average=None))
+print('sklearn recall: ', recall_score(y_actu, y_pred, average=None))
 ###################### deber ###################
 print('-----------------   deber ----------')
 data = np.array([
