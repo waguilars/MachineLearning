@@ -1,7 +1,21 @@
+""" Integrantes:
+  - Wilson Aguilar
+  - Gabriel Cacuango
+  - Ricardo Romo
+  - Christian Lasso
+
+"""
+
 import pandas as pd
 import numpy as np
 
-from sklearn.metrics import confusion_matrix, precision_score, accuracy_score, recall_score
+from sklearn.metrics import (
+    confusion_matrix,
+    precision_score,
+    accuracy_score,
+    recall_score,
+    f1_score
+)
 
 
 def get_accuracy(conf_mtx):
@@ -9,29 +23,43 @@ def get_accuracy(conf_mtx):
     total = np.sum(conf_mtx)
     return tp_tn / total
 
+
 def get_recall(data):
     test = data.sum(axis=1)
     diagonal = np.diag(data)
-    res = np.divide(diagonal,test)
+    res = np.divide(diagonal, test)
     return res
+
 
 def get_precision(data):
     test = data.sum(axis=0)
     diagonal = np.diag(data)
-    res = np.divide(diagonal,test)
+    res = np.divide(diagonal, test)
     return res
 
+
+def get_fmeasure(conf_mtx):
+    presicion = get_precision(conf_mtx)
+    recall = get_recall(conf_mtx)
+    num = presicion*recall
+    den = presicion+recall
+    f1 = 2*(num/den)
+    return f1
+
+
 ########### Test ##########################
-y_actu = [2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2]
-y_pred = [0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2]
-test = confusion_matrix(y_actu, y_pred)
+# y_actu = [2, 0, 2, 2, 0, 1, 1, 2, 2, 0, 1, 2]
+# y_pred = [0, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2, 2]
+# test = confusion_matrix(y_actu, y_pred)
+# print('manual accuracy: ', get_accuracy(test))
+# print('sklearn accuracy: ', accuracy_score(y_actu, y_pred))
+# print('sklearn presicion: ', precision_score(y_actu, y_pred, average=None))
+# print('manual recall: ', get_recall(test))
+# print('sklearn recall: ', recall_score(y_actu, y_pred, average=None))
+# print('manual: f1', get_fmeasure(test))
+# print('sklearn: f1', f1_score(y_actu, y_pred, average=None))
 
 
-print('manual accuracy: ', get_accuracy(test))
-print('sklearn accuracy: ', accuracy_score(y_actu, y_pred))
-print('sklearn presicion: ', precision_score(y_actu, y_pred, average=None))
-print('manual recall: ', get_recall(test))
-print('sklearn recall: ', recall_score(y_actu, y_pred, average=None))
 ###################### deber ###################
 print('-----------------   deber ----------')
 data = np.array([
@@ -46,24 +74,26 @@ data = np.array([
     [7, 19, 11, 24, 11, 46, 29, 14, 792, 21],
     [10, 2, 2, 12, 53, 14, 1, 35, 14, 886]
 ])
+# ==========================
+#         ACCURACY
+# ==========================
+accuracy = get_accuracy(data)
+print("accuracy: \n\t", accuracy)
 
-tp_tn = sum(np.diag(data))
-total = np.sum(data)
 # ==========================
 #           PRESICION
 # ==========================
 presicion = get_precision(data)
-print("presicion: ",presicion)
+print("presicion: \n\t", presicion)
 
 # ==========================
 #           RECALL
 # ==========================
 recall = get_recall(data)
-print("recall: ", recall)
-
+print("recall: \n\t", recall)
 
 # ==========================
-#         ACCURACY
+#         F-MEASURE
 # ==========================
-accuracy = get_accuracy(data)
-print("accuracy: ", accuracy)
+f1 = get_fmeasure(data)
+print("f-measure: \n\t", f1)
